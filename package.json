@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/avnit/user-security/issues"
   },
-  "homepage": "https://github.com/avnit/user-security#readme"
+  "homepage": "https://github.com/avnit/user-security#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
