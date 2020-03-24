@@ -1,10 +1,10 @@
-package com.asbsolutionsusers.users;
+package com.asbsolutionsusers;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class UsersApplicationTests {
+class ApplicationTests {
 
 	@Test
 	void contextLoads() {
