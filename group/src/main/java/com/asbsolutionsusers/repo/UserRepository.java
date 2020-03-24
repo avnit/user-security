@@ -1,4 +1,5 @@
-package com.asbsolutionsusers.users;
+package com.asbsolutionsusers.repo;
+import com.asbsolutionsusers.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
