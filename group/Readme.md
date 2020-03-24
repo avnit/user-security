@@ -1,12 +1,12 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* This project uses 'com.asbsolutionsusers.users' instead.
+* This project uses 'com.asbsolutionsusers.users'.
 
 # Getting Started
 
-Dockerfile 
-maven build 
+* Dockerfile 
+* maven build 
 
 To build project locally run 
 * maven package
@@ -18,7 +18,7 @@ For Docker run the following
 
 Swagger API 
 1. http://localhost:8085/swagger-ui.html#/home-controller/homeUsingGET
-2. THe default port is 8085 for the application.
+2. The default port is 8085 for the application.
 
 
 

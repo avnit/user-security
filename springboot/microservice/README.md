@@ -1,7 +1,5 @@
 # spring-microservices-boilerplate
 
-[中文版](README_zh.md)
-
 ## <a name="index"></a>Index
 
 - [Build and Run](#build)
