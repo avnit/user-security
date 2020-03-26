@@ -2,7 +2,7 @@
  * Package of components.
  *
  * <p>
- *   Use {@link org.springframework.stereotype.Component}
+ * Use {@link org.springframework.stereotype.Component}
  * </p>
  * <pre>
  *   {@link com.saintdan.framework.component.CustomPasswordEncoder}

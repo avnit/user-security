@@ -47,35 +47,35 @@ logging.file: data/logs/core.log
 spring:
   profiles:
     active: dev
-# Configure the server to run with SSL/TLS and using HTTPS
-#    active: https
-# ===============================
-# = DATA SOURCE
-# ===============================
-# If you want to use mysql, you could uncomment line below.
-# And use the mysql dependency in the 'build.gradle'.
-# Set here configurations for the database connection
+  # Configure the server to run with SSL/TLS and using HTTPS
+  #    active: https
+  # ===============================
+  # = DATA SOURCE
+  # ===============================
+  # If you want to use mysql, you could uncomment line below.
+  # And use the mysql dependency in the 'build.gradle'.
+  # Set here configurations for the database connection
   datasource:
     url: jdbc:postgresql://localhost/core?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull
     username: core
     password: core
     hikari:
       connection-test-query: SELECT 1
-# Keep the connection alive if idle for a long time (needed in production)
+  # Keep the connection alive if idle for a long time (needed in production)
 
-# ===============================
-# = JPA / HIBERNATE
-# ===============================
+  # ===============================
+  # = JPA / HIBERNATE
+  # ===============================
 
-# Use 'spring.jpa.properties.*' for Hibernate native properties (the prefix is
-# stripped before adding them to the entity manager).
+  # Use 'spring.jpa.properties.*' for Hibernate native properties (the prefix is
+  # stripped before adding them to the entity manager).
 
-# Show or not log for each sql query
+  # Show or not log for each sql query
   jpa:
     show-sql: true
-# Hibernate ddl auto (create, create-drop, update): with "update" the database
-# schema will be automatically updated accordingly to java entities found in
-# the project
+    # Hibernate ddl auto (create, create-drop, update): with "update" the database
+    # schema will be automatically updated accordingly to java entities found in
+    # the project
     hibernate:
       ddl-auto: update
       naming:
@@ -86,10 +86,10 @@ spring:
         generate_statistics: false
         temp:
           use_jdbc_metadata_defaults: false
-# Mysql
-#      dialect: org.hibernate.dialect.MySQL5Dialect
+      # Mysql
+      #      dialect: org.hibernate.dialect.MySQL5Dialect
       dialect: org.hibernate.dialect.PostgreSQLDialect
-# Redis cache
+  # Redis cache
   cache:
     type: redis
     cache-names: core_cache

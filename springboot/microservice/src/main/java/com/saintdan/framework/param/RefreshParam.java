@@ -18,6 +18,6 @@ import org.springframework.http.HttpMethod;
 @AllArgsConstructor
 public class RefreshParam {
 
-  @NotNullField(method = HttpMethod.PUT, message = "refresh token cannot be null.")
-  private String refreshToken;
+    @NotNullField(method = HttpMethod.PUT, message = "refresh token cannot be null.")
+    private String refreshToken;
 }

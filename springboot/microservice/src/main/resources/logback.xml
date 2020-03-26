@@ -1,7 +1,7 @@
 <configuration scan="true" scanPeriod="10 seconds">
 
-    <include resource="org/springframework/boot/logging/logback/base.xml" />
-    <logger name="com.saintdan.framework" level="DEBUG" />
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <logger name="com.saintdan.framework" level="DEBUG"/>
 
     <!-- Simple file output -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -32,7 +32,7 @@
     <!-- Enable FILE and STDOUT appenders covers all log messages.
          By default, only log at level INFO and above. -->
     <root level="INFO">
-        <appender-ref ref="FILE" />
+        <appender-ref ref="FILE"/>
     </root>
 
 </configuration>

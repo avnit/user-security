@@ -20,16 +20,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-  @Override public UserDetails loadUserByUsername(String usr) throws UsernameNotFoundException {
-    return userRepository.findByUsrAndValidFlag(usr, ValidFlag.VALID).orElseThrow(
-        // Throw cannot find any user by this usr param.
-        () -> new UsernameNotFoundException(String.format("User %s does not exist!", usr)));
-  }
+    private final UserRepository userRepository;
 
-  private final UserRepository userRepository;
+    @Autowired
+    public CustomUserDetailsService(UserRepository userRepository) {
+        Assert.defaultNotNull(userRepository);
+        this.userRepository = userRepository;
+    }
 
-  @Autowired public CustomUserDetailsService(UserRepository userRepository) {
-    Assert.defaultNotNull(userRepository);
-    this.userRepository = userRepository;
-  }
+    @Override
+    public UserDetails loadUserByUsername(String usr) throws UsernameNotFoundException {
+        return userRepository.findByUsrAndValidFlag(usr, ValidFlag.VALID).orElseThrow(
+                // Throw cannot find any user by this usr param.
+                () -> new UsernameNotFoundException(String.format("User %s does not exist!", usr)));
+    }
 }

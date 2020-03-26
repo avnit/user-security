@@ -23,15 +23,15 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Order(1)
 public class RedisConfig extends CachingConfigurerSupport {
 
-  @Bean(name = "limitRedisTemplate")
-  public RedisTemplate<String, RequestCount> limitRedisTemplate(RedisConnectionFactory cf) {
-    RedisTemplate<String, RequestCount> redisTemplate = new RedisTemplate<>();
-    redisTemplate.setKeySerializer(new StringRedisSerializer());
-    redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer(RequestCount.class));
-    redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-    redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer(RequestCount.class));
-    redisTemplate.setEnableTransactionSupport(true);
-    redisTemplate.setConnectionFactory(cf);
-    return redisTemplate;
-  }
+    @Bean(name = "limitRedisTemplate")
+    public RedisTemplate<String, RequestCount> limitRedisTemplate(RedisConnectionFactory cf) {
+        RedisTemplate<String, RequestCount> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer(RequestCount.class));
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer(RequestCount.class));
+        redisTemplate.setEnableTransactionSupport(true);
+        redisTemplate.setConnectionFactory(cf);
+        return redisTemplate;
+    }
 }

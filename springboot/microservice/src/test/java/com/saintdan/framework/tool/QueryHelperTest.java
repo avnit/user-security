@@ -13,11 +13,11 @@ import org.springframework.data.domain.Sort;
  */
 public class QueryHelperTest {
 
-  @Test
-  public void testGetSort() throws Exception {
-    Sort sort = QueryHelper.getSort(sortBy);
-    System.out.println(sort);
-  }
+    private static final String sortBy = "id:asc,name:desc,date:desc";
 
-  private static final String sortBy = "id:asc,name:desc,date:desc";
+    @Test
+    public void testGetSort() throws Exception {
+        Sort sort = QueryHelper.getSort(sortBy);
+        System.out.println(sort);
+    }
 }

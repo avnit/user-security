@@ -1,7 +1,9 @@
 package com.saintdan.framework.config.custom;
 
 import com.saintdan.framework.tools.Assert;
+
 import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,50 +25,50 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableAuthorizationServer
 public class CustomAuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-  @Override public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-    endpoints
-        .tokenStore(customTokenStore.customTokenStore()) // You can use redis / db token store.
-        .authenticationManager(authenticationManager)
-        .userDetailsService(userDetailsService);
-  }
-
-  @Override public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-    // Use JDBC client.
-    clients.withClientDetails(clientDetailsService);
-  }
-
-  @Bean(name = "customTokenServices")
-  @Primary
-  public DefaultTokenServices customTokenServices() {
-    DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-    defaultTokenServices.setTokenStore(customTokenStore.customTokenStore());
-    defaultTokenServices.setSupportRefreshToken(true);
-    return defaultTokenServices;
-  }
+    private final AuthenticationManager authenticationManager;
+    // When you use memory client, you can comment the custom client details service.
+    private final CustomClientDetailsService clientDetailsService;
+    private final CustomUserDetailsService userDetailsService;
+    private final CustomTokenStore customTokenStore;
 
 
+    @Autowired
+    public CustomAuthorizationServerConfiguration(
+            AuthenticationManager authenticationManager,
+            CustomTokenStore customTokenStore,
+            CustomClientDetailsService clientDetailsService,
+            CustomUserDetailsService userDetailsService) {
 
-  private final AuthenticationManager authenticationManager;
+        Assert.defaultNotNull(authenticationManager);
+        Assert.defaultNotNull(clientDetailsService);
+        Assert.defaultNotNull(userDetailsService);
+        Assert.defaultNotNull(customTokenStore);
+        this.authenticationManager = authenticationManager;
+        this.clientDetailsService = clientDetailsService;
+        this.userDetailsService = userDetailsService;
+        this.customTokenStore = customTokenStore;
+    }
 
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+        endpoints
+                .tokenStore(customTokenStore.customTokenStore()) // You can use redis / db token store.
+                .authenticationManager(authenticationManager)
+                .userDetailsService(userDetailsService);
+    }
 
-  // When you use memory client, you can comment the custom client details service.
-  private final CustomClientDetailsService clientDetailsService;
-  private final CustomUserDetailsService userDetailsService;
-  private final CustomTokenStore customTokenStore;
+    @Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        // Use JDBC client.
+        clients.withClientDetails(clientDetailsService);
+    }
 
-  @Autowired public CustomAuthorizationServerConfiguration(
-      AuthenticationManager authenticationManager,
-      CustomTokenStore customTokenStore,
-      CustomClientDetailsService clientDetailsService,
-      CustomUserDetailsService userDetailsService) {
-
-    Assert.defaultNotNull(authenticationManager);
-    Assert.defaultNotNull(clientDetailsService);
-    Assert.defaultNotNull(userDetailsService);
-    Assert.defaultNotNull(customTokenStore);
-    this.authenticationManager = authenticationManager;
-    this.clientDetailsService = clientDetailsService;
-    this.userDetailsService = userDetailsService;
-    this.customTokenStore = customTokenStore;
-  }
+    @Bean(name = "customTokenServices")
+    @Primary
+    public DefaultTokenServices customTokenServices() {
+        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+        defaultTokenServices.setTokenStore(customTokenStore.customTokenStore());
+        defaultTokenServices.setSupportRefreshToken(true);
+        return defaultTokenServices;
+    }
 }

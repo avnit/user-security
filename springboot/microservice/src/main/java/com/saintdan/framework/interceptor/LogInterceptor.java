@@ -2,8 +2,10 @@ package com.saintdan.framework.interceptor;
 
 import com.saintdan.framework.component.LogHelper;
 import com.saintdan.framework.constant.ResourcePath;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -21,30 +23,33 @@ import org.springframework.web.servlet.ModelAndView;
 @Component
 public class LogInterceptor implements HandlerInterceptor {
 
-  @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-    return true;
-  }
+    private final LogHelper logHelper;
 
-  @Override
-  public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-      ModelAndView modelAndView) {}
-
-  @Override public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
-      Object handler, Exception ex) {
-    if (!(HttpMethod.GET.matches(request.getMethod())
-        || HttpMethod.DELETE.matches(request.getMethod()))) {
-      String path = request.getRequestURI();
-      HttpStatus status = HttpStatus.resolve(response.getStatus());
-      if (!path.contains(ResourcePath.OPEN) && status != null && !status.isError()) {
-        logHelper.log(HttpMethod.resolve(request.getMethod()), path);
-      }
+    @Autowired
+    public LogInterceptor(LogHelper logHelper) {
+        this.logHelper = logHelper;
     }
-  }
 
-  private final LogHelper logHelper;
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        return true;
+    }
 
-  @Autowired public LogInterceptor(LogHelper logHelper) {
-    this.logHelper = logHelper;
-  }
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+                           ModelAndView modelAndView) {
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
+                                Object handler, Exception ex) {
+        if (!(HttpMethod.GET.matches(request.getMethod())
+                || HttpMethod.DELETE.matches(request.getMethod()))) {
+            String path = request.getRequestURI();
+            HttpStatus status = HttpStatus.resolve(response.getStatus());
+            if (!path.contains(ResourcePath.OPEN) && status != null && !status.isError()) {
+                logHelper.log(HttpMethod.resolve(request.getMethod()), path);
+            }
+        }
+    }
 }

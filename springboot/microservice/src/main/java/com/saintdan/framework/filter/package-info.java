@@ -2,7 +2,7 @@
  * Package of filter.
  *
  * <p>
- *   Filter request and return error information.
+ * Filter request and return error information.
  * </p>
  *
  * <pre>

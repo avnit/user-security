@@ -23,22 +23,26 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableSpringDataWebSupport
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-  @Override protected void configure(AuthenticationManagerBuilder auth) {
-    auth.authenticationProvider(authenticationProvider());
-  }
+    private final CustomAuthenticationProvider customAuthenticationProvider;
 
-  @Override @Bean public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
-  }
+    public WebSecurityConfiguration(CustomAuthenticationProvider customAuthenticationProvider) {
+        Assert.defaultNotNull(customAuthenticationProvider);
+        this.customAuthenticationProvider = customAuthenticationProvider;
+    }
 
-  @Bean public AuthenticationProvider authenticationProvider() {
-    return customAuthenticationProvider;
-  }
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(authenticationProvider());
+    }
 
-  private final CustomAuthenticationProvider customAuthenticationProvider;
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
-  public WebSecurityConfiguration(CustomAuthenticationProvider customAuthenticationProvider) {
-    Assert.defaultNotNull(customAuthenticationProvider);
-    this.customAuthenticationProvider = customAuthenticationProvider;
-  }
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        return customAuthenticationProvider;
+    }
 }

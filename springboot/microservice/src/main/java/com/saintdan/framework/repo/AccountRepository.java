@@ -1,6 +1,7 @@
 package com.saintdan.framework.repo;
 
 import com.saintdan.framework.po.Account;
+
 import java.util.Optional;
 
 /**
@@ -12,5 +13,5 @@ import java.util.Optional;
  */
 public interface AccountRepository extends CustomRepository<Account, Long> {
 
-  Optional<Account> findByAccount(String account);
+    Optional<Account> findByAccount(String account);
 }

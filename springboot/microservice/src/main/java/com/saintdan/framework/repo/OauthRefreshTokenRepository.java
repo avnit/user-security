@@ -1,7 +1,9 @@
 package com.saintdan.framework.repo;
 
 import com.saintdan.framework.po.OauthRefreshToken;
+
 import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -11,5 +13,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface OauthRefreshTokenRepository extends JpaRepository<OauthRefreshToken, String> {
 
-  Optional<OauthRefreshToken> findByTokenId(String tokenId);
+    Optional<OauthRefreshToken> findByTokenId(String tokenId);
 }

@@ -1,16 +1,16 @@
 /**
  * Package of enums.
  * <p>
- *   Need code + description,
- *   please implement {@link com.saintdan.framework.enums.IntentStateWithDescription}.
+ * Need code + description,
+ * please implement {@link com.saintdan.framework.enums.IntentStateWithDescription}.
  * </p>
  * <pre>
  *   String description();
  * </pre>
  *
  * <p>
- *   Need code + number + description,
- *   please implement {@link com.saintdan.framework.enums.IntentStateWithCodeAndDescription}
+ * Need code + number + description,
+ * please implement {@link com.saintdan.framework.enums.IntentStateWithCodeAndDescription}
  * </p>
  * <pre>
  *   int code();

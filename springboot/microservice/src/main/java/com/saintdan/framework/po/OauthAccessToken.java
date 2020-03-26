@@ -3,6 +3,7 @@ package com.saintdan.framework.po;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import lombok.Data;
 
 /**
@@ -17,8 +18,8 @@ import lombok.Data;
 @Data
 public class OauthAccessToken {
 
-  @Id
-  private String tokenId;
-  private String userName;
-  private String clientId;
+    @Id
+    private String tokenId;
+    private String userName;
+    private String clientId;
 }

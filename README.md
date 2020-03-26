@@ -2,9 +2,9 @@
 
 **Project list** 
 1. Group - main project for maven springboot user microservice 
-2. firestore - nodejs application to run on cloud function 
-3. group-groovy-gradle - rewritting the group project in groovy and gradle
-4. springboot/microservice - sample boilerplate template for springboot gradle and JPA.
+2. Firestore - nodejs application to run on cloud function 
+3. Group-groovy-gradle - rewritting the group project in groovy and gradle
+4. Springboot/microservice - sample boilerplate template for springboot gradle and JPA.
 
 ## <a name="index"></a>Index
 

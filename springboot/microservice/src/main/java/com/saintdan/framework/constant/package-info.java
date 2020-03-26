@@ -2,7 +2,7 @@
  * Some constants.
  *
  * <p>
- *   class must be interface.
+ * class must be interface.
  * </p>
  *
  * @author <a href="http://github.com/saintdan">Liao Yifan</a>

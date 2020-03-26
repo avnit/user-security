@@ -21,7 +21,7 @@ services:
     ports:
       - "<host port>:5432"
     networks:
-          - backend
+      - backend
     environment:
       - PG_PASSWORD=core
       - DB_USER=core

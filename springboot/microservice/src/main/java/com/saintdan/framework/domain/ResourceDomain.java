@@ -12,8 +12,10 @@ import com.saintdan.framework.repo.ResourceRepository;
 import com.saintdan.framework.tools.Assert;
 import com.saintdan.framework.tools.ErrorMsgHelper;
 import com.saintdan.framework.vo.ResourceVO;
+
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,59 +30,63 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class ResourceDomain extends BaseDomain<Resource, Long> {
 
-  // ------------------------
-  // PUBLIC METHODS
-  // ------------------------
+    // ------------------------
+    // PUBLIC METHODS
+    // ------------------------
 
-  @Transactional public ResourceVO create(ResourceParam param, User currentUser) throws Exception {
-    return super.createByPO(ResourceVO.class, resourceParam2PO(param, new Resource(), currentUser));
-  }
+    private final ResourceRepository resourceRepository;
 
-  public List<ResourceVO> all() {
-    return resourceRepository.findAll().stream()
-        .map(resource -> {
-          try {
-            return transformer.po2VO(ResourceVO.class, resource);
-          } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-          }
-        }).collect(Collectors.toList());
-  }
-
-  @Transactional public ResourceVO update(ResourceParam param, User currentUser) throws Exception {
-    Resource resource = findById(param.getId());
-    return super.updateByPO(ResourceVO.class, resourceParam2PO(param, resource, currentUser));
-  }
-
-  public Resource findById(Long id) {
-    return resourceRepository.findById(id).orElse(null);
-  }
-
-  @Transactional @Override public void deepDelete(Long id) throws Exception {
-    Resource resource = findById(id);
-    if (resource == null) {
-      throw new CommonsException(ErrorType.SYS0122, ErrorMsgHelper
-          .getReturnMsg(ErrorType.SYS0122, getClassT().getSimpleName().toLowerCase(),
-              CommonsConstant.ID));
+    public ResourceDomain(CustomRepository<Resource, Long> repository, Transformer transformer,
+                          ResourceRepository resourceRepository) {
+        super(repository, transformer);
+        Assert.defaultNotNull(resourceRepository);
+        this.resourceRepository = resourceRepository;
     }
-    resourceRepository.delete(resource);
-  }
 
-  // --------------------------
-  // PRIVATE FIELDS AND METHODS
-  // --------------------------
+    @Transactional
+    public ResourceVO create(ResourceParam param, User currentUser) throws Exception {
+        return super.createByPO(ResourceVO.class, resourceParam2PO(param, new Resource(), currentUser));
+    }
 
-  private final ResourceRepository resourceRepository;
+    public List<ResourceVO> all() {
+        return resourceRepository.findAll().stream()
+                .map(resource -> {
+                    try {
+                        return transformer.po2VO(ResourceVO.class, resource);
+                    } catch (InstantiationException | IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).collect(Collectors.toList());
+    }
 
-  public ResourceDomain(CustomRepository<Resource, Long> repository, Transformer transformer,
-      ResourceRepository resourceRepository) {
-    super(repository, transformer);
-    Assert.defaultNotNull(resourceRepository);
-    this.resourceRepository = resourceRepository;
-  }
+    @Transactional
+    public ResourceVO update(ResourceParam param, User currentUser) throws Exception {
+        Resource resource = findById(param.getId());
+        return super.updateByPO(ResourceVO.class, resourceParam2PO(param, resource, currentUser));
+    }
 
-  private Resource resourceParam2PO(ResourceParam param, Resource resource, User currentUser)
-      throws Exception {
-    return transformer.param2PO(getClassT(), param, resource, currentUser);
-  }
+    // --------------------------
+    // PRIVATE FIELDS AND METHODS
+    // --------------------------
+
+    public Resource findById(Long id) {
+        return resourceRepository.findById(id).orElse(null);
+    }
+
+    @Transactional
+    @Override
+    public void deepDelete(Long id) throws Exception {
+        Resource resource = findById(id);
+        if (resource == null) {
+            throw new CommonsException(ErrorType.SYS0122, ErrorMsgHelper
+                    .getReturnMsg(ErrorType.SYS0122, getClassT().getSimpleName().toLowerCase(),
+                            CommonsConstant.ID));
+        }
+        resourceRepository.delete(resource);
+    }
+
+    private Resource resourceParam2PO(ResourceParam param, Resource resource, User currentUser)
+            throws Exception {
+        return transformer.param2PO(getClassT(), param, resource, currentUser);
+    }
 }

@@ -21,18 +21,18 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @since JDK1.8
  */
 @EntityScan(
-    basePackageClasses = { Application.class, Jsr310JpaConverters.class }
+        basePackageClasses = {Application.class, Jsr310JpaConverters.class}
 )
 @SpringBootApplication
 @EnableAsync
 // I don't use Jmx and web socket, so I comment them.
 @Import({
-    JacksonAutoConfiguration.class,
-    PropertySourcesPlaceholderConfigurer.class,
-    ThymeleafAutoConfiguration.class,
+        JacksonAutoConfiguration.class,
+        PropertySourcesPlaceholderConfigurer.class,
+        ThymeleafAutoConfiguration.class,
 })
 public class Application {
-  public static void main(String[] args) {
-    SpringApplication.run(Application.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 }

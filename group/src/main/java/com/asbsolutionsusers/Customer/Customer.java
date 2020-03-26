@@ -1,43 +1,43 @@
-package com.asbsolutionsusers.customer;
+package com.asbsolutionsusers.Customer;
 
-import javax.persistence.GeneratedValue;
+/*import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-public class customer {
+public class Customer {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
-    private String name;
+    private Long id;
+    private String Customer;
 
-    public customer()
+    public Customer()
     {
     }
 
-    public customer(Integer id, String name)
+    public Customer(Long id, String Customer)
     {
         this.id = id;
-        this.name = name;
+        this.Customer = Customer;
     }
 
-    public Integer getId()
+    public Long getId()
     {
         return id;
     }
 
-    public void setId(Integer id)
+    public void setId(Long id)
     {
         this.id = id;
     }
 
-    public String getName()
+    public String getCustomer()
     {
-        return name;
+        return Customer;
     }
 
-    public void setName(String name)
+    public void setCustomer(String Customer)
     {
-        this.name = name;
+        this.Customer = Customer;
     }
 
-}
+} */

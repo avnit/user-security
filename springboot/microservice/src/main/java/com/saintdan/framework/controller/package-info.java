@@ -1,7 +1,7 @@
 /**
  * package of controllers.
  * <p>
- *   Use {@link org.springframework.web.bind.annotation.RestController}
+ * Use {@link org.springframework.web.bind.annotation.RestController}
  * </p>
  * <pre>
  *     Example:
@@ -17,10 +17,10 @@
  * </pre>
  *
  * <p>
- *   Use {@link com.saintdan.framework.component.SignHelper} to signature.
- *   Use {@link com.saintdan.framework.component.ResultHelper} to return VO.
+ * Use {@link com.saintdan.framework.component.SignHelper} to signature.
+ * Use {@link com.saintdan.framework.component.ResultHelper} to return VO.
  * </p>
- * 
+ *
  * @author <a href="http://github.com/saintdan">Liao Yifan</a>
  * @date 6/23/15
  * @since JDK1.8

@@ -1,7 +1,7 @@
 /**
  * Package of view objects.
  * <p>
- *   Single object please extends {@link com.saintdan.framework.vo.ErrorVO}
+ * Single object please extends {@link com.saintdan.framework.vo.ErrorVO}
  * </p>
  *
  * @author <a href="http://github.com/saintdan">Liao Yifan</a>

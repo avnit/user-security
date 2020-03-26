@@ -5,9 +5,11 @@ import com.saintdan.framework.param.RefreshParam;
 import com.saintdan.framework.service.LoginService;
 import com.saintdan.framework.tools.Assert;
 import com.saintdan.framework.tools.LoginUtils;
+
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -27,32 +29,34 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoginServiceImpl implements LoginService {
 
-  @Override public ResponseEntity login(LoginParam param, HttpServletRequest request) throws Exception {
-    return execute(param.getUsr(), param.getPwd(), null, request);
-  }
+    private static final String AUTHORITY_PROP = "client.authorities";
+    private final TokenEndpoint tokenEndpoint;
+    private final Environment environment;
 
-  @Override public ResponseEntity refresh(RefreshParam param, HttpServletRequest request) throws Exception {
-    return execute(null, null, param.getRefreshToken(), request);
-  }
+    @Autowired
+    public LoginServiceImpl(TokenEndpoint tokenEndpoint, Environment environment) {
+        Assert.defaultNotNull(tokenEndpoint);
+        Assert.defaultNotNull(environment);
+        this.tokenEndpoint = tokenEndpoint;
+        this.environment = environment;
+    }
 
-  private static final String AUTHORITY_PROP = "client.authorities";
+    @Override
+    public ResponseEntity login(LoginParam param, HttpServletRequest request) throws Exception {
+        return execute(param.getUsr(), param.getPwd(), null, request);
+    }
 
-  private ResponseEntity execute(String usr, String pwd, String refreshToken, HttpServletRequest request) throws Exception {
-    final List<GrantedAuthority> CLIENT_AUTHORITIES = AuthorityUtils
-        .commaSeparatedStringToAuthorityList(environment.getProperty(AUTHORITY_PROP));
-    UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-        LoginUtils.getClientId(request), "", CLIENT_AUTHORITIES);
-    Map<String, String> params = LoginUtils.getParams(usr, pwd, refreshToken);
-    return tokenEndpoint.postAccessToken(token, params);
-  }
+    @Override
+    public ResponseEntity refresh(RefreshParam param, HttpServletRequest request) throws Exception {
+        return execute(null, null, param.getRefreshToken(), request);
+    }
 
-  private final TokenEndpoint tokenEndpoint;
-  private final Environment environment;
-
-  @Autowired public LoginServiceImpl(TokenEndpoint tokenEndpoint, Environment environment) {
-    Assert.defaultNotNull(tokenEndpoint);
-    Assert.defaultNotNull(environment);
-    this.tokenEndpoint = tokenEndpoint;
-    this.environment = environment;
-  }
+    private ResponseEntity execute(String usr, String pwd, String refreshToken, HttpServletRequest request) throws Exception {
+        final List<GrantedAuthority> CLIENT_AUTHORITIES = AuthorityUtils
+                .commaSeparatedStringToAuthorityList(environment.getProperty(AUTHORITY_PROP));
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                LoginUtils.getClientId(request), "", CLIENT_AUTHORITIES);
+        Map<String, String> params = LoginUtils.getParams(usr, pwd, refreshToken);
+        return tokenEndpoint.postAccessToken(token, params);
+    }
 }

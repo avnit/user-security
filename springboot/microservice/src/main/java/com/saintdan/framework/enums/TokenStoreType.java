@@ -7,14 +7,14 @@ package com.saintdan.framework.enums;
  */
 public enum TokenStoreType {
 
-  REDIS,
-  DB;
+    REDIS,
+    DB;
 
-  public boolean isRedis() {
-    return name().equals(REDIS.name());
-  }
+    public boolean isRedis() {
+        return name().equals(REDIS.name());
+    }
 
-  public boolean isDB() {
-    return name().equals(DB.name());
-  }
+    public boolean isDB() {
+        return name().equals(DB.name());
+    }
 }

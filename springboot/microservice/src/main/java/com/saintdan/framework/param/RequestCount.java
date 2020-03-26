@@ -1,6 +1,7 @@
 package com.saintdan.framework.param;
 
 import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RequestCount implements Serializable {
 
-  private String key;
-  private int count = 0;
-  private final long firstReqAt = System.currentTimeMillis();
+    private final long firstReqAt = System.currentTimeMillis();
+    private String key;
+    private int count = 0;
 }

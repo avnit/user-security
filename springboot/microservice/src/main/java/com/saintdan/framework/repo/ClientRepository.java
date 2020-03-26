@@ -1,6 +1,7 @@
 package com.saintdan.framework.repo;
 
 import com.saintdan.framework.po.Client;
+
 import java.util.Optional;
 
 /**
@@ -12,5 +13,5 @@ import java.util.Optional;
  */
 public interface ClientRepository extends CustomRepository<Client, Long> {
 
-  Optional<Client> findByClientIdAlias(String clientIdAlias);
+    Optional<Client> findByClientIdAlias(String clientIdAlias);
 }

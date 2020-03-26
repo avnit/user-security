@@ -18,17 +18,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomClientDetailsService implements ClientDetailsService {
 
-  @Override public ClientDetails loadClientByClientId(String clientId)
-      throws ClientRegistrationException {
-    return clientRepository.findByClientIdAlias(clientId).orElseThrow(
-        () -> new ClientRegistrationException(
-            String.format("Client %s does not exist!", clientId)));
-  }
+    private final ClientRepository clientRepository;
 
-  private final ClientRepository clientRepository;
+    @Autowired
+    public CustomClientDetailsService(ClientRepository clientRepository) {
+        Assert.defaultNotNull(clientRepository);
+        this.clientRepository = clientRepository;
+    }
 
-  @Autowired public CustomClientDetailsService(ClientRepository clientRepository) {
-    Assert.defaultNotNull(clientRepository);
-    this.clientRepository = clientRepository;
-  }
+    @Override
+    public ClientDetails loadClientByClientId(String clientId)
+            throws ClientRegistrationException {
+        return clientRepository.findByClientIdAlias(clientId).orElseThrow(
+                () -> new ClientRegistrationException(
+                        String.format("Client %s does not exist!", clientId)));
+    }
 }

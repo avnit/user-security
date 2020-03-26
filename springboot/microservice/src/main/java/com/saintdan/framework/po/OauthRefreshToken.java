@@ -3,6 +3,7 @@ package com.saintdan.framework.po;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import lombok.Data;
 
 /**
@@ -15,6 +16,6 @@ import lombok.Data;
 @Data
 public class OauthRefreshToken {
 
-  @Id
-  private String tokenId;
+    @Id
+    private String tokenId;
 }

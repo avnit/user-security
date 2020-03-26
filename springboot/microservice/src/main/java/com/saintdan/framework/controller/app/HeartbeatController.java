@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(ResourcePath.API + ResourcePath.V1 + ResourcePath.APP + ResourcePath.HEARTBEAT)
 public class HeartbeatController {
 
-  @RequestMapping(method = RequestMethod.GET)
-  @ApiOperation(value = "Heartbeat", httpMethod = "GET", response = ResponseEntity.class)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "Authorization", value = "token", paramType = "header", dataType = "string", required = true),
-      @ApiImplicitParam(name = "Limit-Key", value = "limit key", paramType = "header", dataType = "string")
-  })
-  public ResponseEntity heartbeat() {
-    return ResponseEntity.ok().build();
-  }
+    @RequestMapping(method = RequestMethod.GET)
+    @ApiOperation(value = "Heartbeat", httpMethod = "GET", response = ResponseEntity.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "token", paramType = "header", dataType = "string", required = true),
+            @ApiImplicitParam(name = "Limit-Key", value = "limit key", paramType = "header", dataType = "string")
+    })
+    public ResponseEntity heartbeat() {
+        return ResponseEntity.ok().build();
+    }
 }

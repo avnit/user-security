@@ -2,7 +2,7 @@
  * Custom's config.
  *
  * <p>
- *   Use {@link org.springframework.context.annotation.Configuration}
+ * Use {@link org.springframework.context.annotation.Configuration}
  * </p>
  * <pre>
  *   {@link com.saintdan.framework.config.custom.CustomAuthenticationProvider}

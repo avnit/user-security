@@ -4,7 +4,9 @@ import com.saintdan.framework.exception.CommonsException;
 import com.saintdan.framework.po.Log;
 import com.saintdan.framework.repo.LogRepository;
 import com.saintdan.framework.tools.Assert;
+
 import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -25,38 +27,41 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class LogDomain {
 
-  // ------------------------
-  // PUBLIC METHODS
-  // ------------------------
+    // ------------------------
+    // PUBLIC METHODS
+    // ------------------------
 
-  @Async @Transactional public void create(Log log) {
-    logRepository.save(log);
-  }
+    private final LogRepository logRepository;
 
-  /**
-   * Show logs.
-   *
-   * @return {@link Page}
-   * @throws CommonsException {@link com.saintdan.framework.enums.ErrorType#SYS0121} No group
-   *                          exists.
-   */
-  @SuppressWarnings("unchecked")
-  public Page page(Specification<Log> specification, Pageable pageable) throws Exception {
-    Page<Log> logs = logRepository.findAll(specification, pageable);
-    if (!logs.hasContent()) {
-      return new PageImpl<>(new ArrayList<>(), pageable, logs.getTotalElements());
+    @Autowired
+    public LogDomain(LogRepository logRepository) {
+        Assert.defaultNotNull(logRepository);
+        this.logRepository = logRepository;
     }
-    return logs;
-  }
 
-  // --------------------------
-  // PRIVATE FIELDS AND METHODS
-  // --------------------------
+    // --------------------------
+    // PRIVATE FIELDS AND METHODS
+    // --------------------------
 
-  private final LogRepository logRepository;
+    @Async
+    @Transactional
+    public void create(Log log) {
+        logRepository.save(log);
+    }
 
-  @Autowired public LogDomain(LogRepository logRepository) {
-    Assert.defaultNotNull(logRepository);
-    this.logRepository = logRepository;
-  }
+    /**
+     * Show logs.
+     *
+     * @return {@link Page}
+     * @throws CommonsException {@link com.saintdan.framework.enums.ErrorType#SYS0121} No group
+     *                          exists.
+     */
+    @SuppressWarnings("unchecked")
+    public Page page(Specification<Log> specification, Pageable pageable) throws Exception {
+        Page<Log> logs = logRepository.findAll(specification, pageable);
+        if (!logs.hasContent()) {
+            return new PageImpl<>(new ArrayList<>(), pageable, logs.getTotalElements());
+        }
+        return logs;
+    }
 }

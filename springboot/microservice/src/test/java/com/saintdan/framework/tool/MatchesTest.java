@@ -14,12 +14,11 @@ import org.junit.Test;
  */
 public class MatchesTest {
 
-  private CustomPasswordEncoder passwordEncoder = new CustomPasswordEncoder();
+    private static final String RAW_PASSWORD = "admin";
+    private CustomPasswordEncoder passwordEncoder = new CustomPasswordEncoder();
 
-  private static final String RAW_PASSWORD = "admin";
-
-  @Test
-  public void testMatches() throws Exception {
-    Assert.assertTrue(passwordEncoder.matches(RAW_PASSWORD, passwordEncoder.encode(RAW_PASSWORD)));
-  }
+    @Test
+    public void testMatches() throws Exception {
+        Assert.assertTrue(passwordEncoder.matches(RAW_PASSWORD, passwordEncoder.encode(RAW_PASSWORD)));
+    }
 }

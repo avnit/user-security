@@ -1,7 +1,9 @@
 package com.saintdan.framework.repo;
 
 import com.saintdan.framework.po.OauthAccessToken;
+
 import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -13,5 +15,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface OauthAccessTokenRepository extends JpaRepository<OauthAccessToken, String> {
 
-  Optional<OauthAccessToken> findByUserName(String userName);
+    Optional<OauthAccessToken> findByUserName(String userName);
 }

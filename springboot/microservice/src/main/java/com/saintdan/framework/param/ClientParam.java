@@ -24,22 +24,22 @@ import org.springframework.http.HttpMethod;
 @AllArgsConstructor
 public class ClientParam extends BaseParam {
 
-  private static final long serialVersionUID = 6065608866944007796L;
+    private static final long serialVersionUID = 6065608866944007796L;
 
-  @ApiModelProperty(hidden = true)
-  private Long id;
+    @ApiModelProperty(hidden = true)
+    private Long id;
 
-  @NotNullField(method = HttpMethod.POST, message = "name cannot be null.")
-  private String name;
+    @NotNullField(method = HttpMethod.POST, message = "name cannot be null.")
+    private String name;
 
-  @NotNullField(method = HttpMethod.POST, message = "publicKey cannot be null.")
-  private String publicKey;
+    @NotNullField(method = HttpMethod.POST, message = "publicKey cannot be null.")
+    private String publicKey;
 
-  @NotNullField(method = HttpMethod.POST, message = "scope cannot be null.")
-  private String scope;
+    @NotNullField(method = HttpMethod.POST, message = "scope cannot be null.")
+    private String scope;
 
-  @NotNullField(method = HttpMethod.POST, message = "grantType cannot be null.")
-  private String grantType;
-  private Integer accessTokenValiditySeconds;
-  private Integer refreshTokenValiditySeconds;
+    @NotNullField(method = HttpMethod.POST, message = "grantType cannot be null.")
+    private String grantType;
+    private Integer accessTokenValiditySeconds;
+    private Integer refreshTokenValiditySeconds;
 }

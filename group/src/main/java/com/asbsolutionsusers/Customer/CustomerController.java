@@ -1,21 +1,30 @@
-package com.asbsolutionsusers.customer;
+package com.asbsolutionsusers.Customer;
 
-import com.asbsolutionsusers.users.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-public class customerController {
+import java.util.Collections;
+import java.util.List;
 
-    @Autowired
-    UserRepository customerRepository;
+@Controller()
+@RequestMapping(path= "/customer", method = RequestMethod.GET)
+public class CustomerController {
 
-    @RequestMapping("/customers")
-    public String home(Model model)
-    {
-        model.addAttribute("customers", customerRepository.findAll());
-        return "index";
+    @RequestMapping(path = "/customer/{id}", method = RequestMethod.GET)
+    public List<CatalogItem> getCatalog(@PathVariable String CustomerId){
+        return Collections.singletonList( new CatalogItem(1,"Accenture", 17000.00, 69000.00));
     }
+//    @Autowired
+//    CustomerRepository CustomerRepository;
+//
+//    @RequestMapping("/customers")
+//    public String home(Model model)
+//    {
+//        model.addAttribute("Customer", CustomerRepository.findAll());
+//        return "index";
+//    }
 
 
 

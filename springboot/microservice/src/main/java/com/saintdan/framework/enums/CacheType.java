@@ -6,14 +6,14 @@ package com.saintdan.framework.enums;
  * @since JDK1.8
  */
 public enum CacheType {
-  REDIS,
-  MAP;
+    REDIS,
+    MAP;
 
-  public boolean isRedis() {
-    return name().equals(REDIS.name());
-  }
+    public boolean isRedis() {
+        return name().equals(REDIS.name());
+    }
 
-  public boolean isMap() {
-    return name().equals(MAP.name());
-  }
+    public boolean isMap() {
+        return name().equals(MAP.name());
+    }
 }

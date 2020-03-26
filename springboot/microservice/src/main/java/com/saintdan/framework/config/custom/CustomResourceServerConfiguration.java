@@ -1,8 +1,10 @@
 package com.saintdan.framework.config.custom;
 
 import com.saintdan.framework.constant.ResourcePath;
+
 import java.util.Collections;
 import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,48 +23,51 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @Configuration
 public class CustomResourceServerConfiguration {
 
-  /**
-   * Resource of api
-   *
-   * @return {@link ResourceServerConfiguration}
-   */
-  @Bean protected ResourceServerConfiguration adminResources() {
+    private static final String RESOURCE_ID = "api";
+    private static final String MANAGEMENT_URL = getURL(ResourcePath.MANAGEMENT);
+    private static final String APP_URL = getURL(ResourcePath.APP);
+    private static final String OPEN_URL = getURL(ResourcePath.OPEN);
 
-    ResourceServerConfiguration resource = new ResourceServerConfiguration() {
-      // Switch off the Spring Boot @Autowired configurers
-      public void setConfigurers(List<ResourceServerConfigurer> configurers) {
-        super.setConfigurers(configurers);
-      }
-    };
+    private static String getURL(CharSequence element) {
+        return String.join("", ResourcePath.FIX, ResourcePath.API, ResourcePath.V1, element,
+                ResourcePath.FIX);
+    }
 
-    resource.setConfigurers(Collections.singletonList(new ResourceServerConfigurerAdapter() {
+    /**
+     * Resource of api
+     *
+     * @return {@link ResourceServerConfiguration}
+     */
+    @Bean
+    protected ResourceServerConfiguration adminResources() {
 
-      @Override public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.resourceId(RESOURCE_ID);
-      }
+        ResourceServerConfiguration resource = new ResourceServerConfiguration() {
+            // Switch off the Spring Boot @Autowired configurers
+            public void setConfigurers(List<ResourceServerConfigurer> configurers) {
+                super.setConfigurers(configurers);
+            }
+        };
 
-      @Override public void configure(HttpSecurity http) throws Exception {
-        http
-            .csrf().disable()
-            .authorizeRequests()
-            .antMatchers(OPEN_URL).permitAll()
-            .antMatchers(MANAGEMENT_URL).hasAnyAuthority("root", "management")
-            .antMatchers(APP_URL).hasAnyAuthority("root", "management", "app");
-      }
-    }));
+        resource.setConfigurers(Collections.singletonList(new ResourceServerConfigurerAdapter() {
 
-    resource.setOrder(1);
+            @Override
+            public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+                resources.resourceId(RESOURCE_ID);
+            }
 
-    return resource;
-  }
+            @Override
+            public void configure(HttpSecurity http) throws Exception {
+                http
+                        .csrf().disable()
+                        .authorizeRequests()
+                        .antMatchers(OPEN_URL).permitAll()
+                        .antMatchers(MANAGEMENT_URL).hasAnyAuthority("root", "management")
+                        .antMatchers(APP_URL).hasAnyAuthority("root", "management", "app");
+            }
+        }));
 
-  private static final String RESOURCE_ID = "api";
-  private static final String MANAGEMENT_URL = getURL(ResourcePath.MANAGEMENT);
-  private static final String APP_URL = getURL(ResourcePath.APP);
-  private static final String OPEN_URL = getURL(ResourcePath.OPEN);
+        resource.setOrder(1);
 
-  private static String getURL(CharSequence element) {
-    return String.join("", ResourcePath.FIX, ResourcePath.API, ResourcePath.V1, element,
-        ResourcePath.FIX);
-  }
+        return resource;
+    }
 }

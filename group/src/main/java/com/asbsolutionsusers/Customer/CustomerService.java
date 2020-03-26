@@ -1,4 +1,7 @@
-package com.asbsolutionsusers.customer;
+package com.asbsolutionsusers.Customer;
 
-public class customerService {
+import org.springframework.stereotype.Service;
+
+@Service
+public class CustomerService implements RandomGenratedService {
 }

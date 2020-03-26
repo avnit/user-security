@@ -23,12 +23,12 @@ import org.springframework.http.HttpMethod;
 @AllArgsConstructor
 public class ResourceParam extends BaseParam {
 
-  private static final long serialVersionUID = 8542867394907970893L;
+    private static final long serialVersionUID = 8542867394907970893L;
 
-  @ApiModelProperty(hidden = true)
-  private Long id;
+    @ApiModelProperty(hidden = true)
+    private Long id;
 
-  @NotNullField(method = HttpMethod.POST, message = "name cannot be null.")
-  private String name; // role's name
-  private String description;
+    @NotNullField(method = HttpMethod.POST, message = "name cannot be null.")
+    private String name; // role's name
+    private String description;
 }

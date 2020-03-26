@@ -2,6 +2,7 @@ package com.saintdan.framework.repo;
 
 import com.saintdan.framework.enums.ValidFlag;
 import com.saintdan.framework.po.Resource;
+
 import java.util.Optional;
 
 /**
@@ -13,6 +14,6 @@ import java.util.Optional;
  */
 public interface ResourceRepository extends CustomRepository<Resource, Long> {
 
-  Optional<Resource> findByNameAndValidFlag(String name, ValidFlag validFlag);
+    Optional<Resource> findByNameAndValidFlag(String name, ValidFlag validFlag);
 
 }

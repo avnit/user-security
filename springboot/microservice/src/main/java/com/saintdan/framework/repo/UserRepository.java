@@ -2,6 +2,7 @@ package com.saintdan.framework.repo;
 
 import com.saintdan.framework.enums.ValidFlag;
 import com.saintdan.framework.po.User;
+
 import java.util.Optional;
 
 
@@ -14,7 +15,7 @@ import java.util.Optional;
  */
 public interface UserRepository extends CustomRepository<User, Long> {
 
-  Optional<User> findByIdAndValidFlag(Long id, ValidFlag validFlag);
+    Optional<User> findByIdAndValidFlag(Long id, ValidFlag validFlag);
 
-  Optional<User> findByUsrAndValidFlag(String usr, ValidFlag validFlag);
+    Optional<User> findByUsrAndValidFlag(String usr, ValidFlag validFlag);
 }

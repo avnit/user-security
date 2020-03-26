@@ -6,6 +6,7 @@ import com.saintdan.framework.param.LoginParam;
 import com.saintdan.framework.param.ResourceParam;
 import com.saintdan.framework.param.RoleParam;
 import com.saintdan.framework.param.UserParam;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,60 +17,60 @@ import java.util.Map;
  */
 public enum ResourceUri {
 
-  LOGIN(ResourcePath.API + ResourcePath.V1 + ResourcePath.OPEN + ResourcePath.LOGIN,
-      LoginParam.class),
-  REFRESH(ResourcePath.API + ResourcePath.V1 + ResourcePath.OPEN + ResourcePath.REFRESH,
-      LoginParam.class),
-  CLIENTS(ResourcePath.API + ResourcePath.V1 + ResourcePath.MANAGEMENT + ResourcePath.CLIENTS,
-      ClientParam.class),
-  RESOURCES(
-      ResourcePath.API + ResourcePath.V1 + ResourcePath.MANAGEMENT + ResourcePath.RESOURCES,
-      ResourceParam.class),
-  ROLES(ResourcePath.API + ResourcePath.V1 + ResourcePath.MANAGEMENT + ResourcePath.ROLES,
-      RoleParam.class),
-  USERS(ResourcePath.API + ResourcePath.V1 + ResourcePath.MANAGEMENT + ResourcePath.USERS,
-      UserParam.class),
+    LOGIN(ResourcePath.API + ResourcePath.V1 + ResourcePath.OPEN + ResourcePath.LOGIN,
+            LoginParam.class),
+    REFRESH(ResourcePath.API + ResourcePath.V1 + ResourcePath.OPEN + ResourcePath.REFRESH,
+            LoginParam.class),
+    CLIENTS(ResourcePath.API + ResourcePath.V1 + ResourcePath.MANAGEMENT + ResourcePath.CLIENTS,
+            ClientParam.class),
+    RESOURCES(
+            ResourcePath.API + ResourcePath.V1 + ResourcePath.MANAGEMENT + ResourcePath.RESOURCES,
+            ResourceParam.class),
+    ROLES(ResourcePath.API + ResourcePath.V1 + ResourcePath.MANAGEMENT + ResourcePath.ROLES,
+            RoleParam.class),
+    USERS(ResourcePath.API + ResourcePath.V1 + ResourcePath.MANAGEMENT + ResourcePath.USERS,
+            UserParam.class),
 
-  UNKNOWN("unknown", null);
+    UNKNOWN("unknown", null);
 
-  private String uri;
-  private Class clazz;
+    private static final Map<String, ResourceUri> mappings = new HashMap<>(2);
 
-  private static final Map<String, ResourceUri> mappings = new HashMap<>(2);
-
-  static {
-    for (ResourceUri resourceUri : values()) {
-      mappings.put(resourceUri.uri, resourceUri);
+    static {
+        for (ResourceUri resourceUri : values()) {
+            mappings.put(resourceUri.uri, resourceUri);
+        }
     }
-  }
 
-  ResourceUri(String uri, Class clazz) {
-    this.uri = uri;
-    this.clazz = clazz;
-  }
+    private String uri;
+    private Class clazz;
 
-  public String uri() {
-    return uri;
-  }
+    ResourceUri(String uri, Class clazz) {
+        this.uri = uri;
+        this.clazz = clazz;
+    }
 
-  public Class clazz() {
-    return clazz;
-  }
+    public static ResourceUri resolve(String uri) {
+        String matchUri = mappings.keySet().stream()
+                .filter(uri::contains)
+                .findFirst()
+                .orElse(null);
+        return (matchUri != null ? mappings.get(matchUri) : UNKNOWN);
+    }
 
-  public static ResourceUri resolve(String uri) {
-    String matchUri = mappings.keySet().stream()
-        .filter(uri::contains)
-        .findFirst()
-        .orElse(null);
-    return (matchUri != null ? mappings.get(matchUri) : UNKNOWN);
-  }
+    public String uri() {
+        return uri;
+    }
 
-  public boolean isUnknown() {
-    return ResourceUri.UNKNOWN.uri.equals(this.uri);
-  }
+    public Class clazz() {
+        return clazz;
+    }
 
-  public boolean matches(String uri) {
-    return (this == resolve(uri));
-  }
+    public boolean isUnknown() {
+        return ResourceUri.UNKNOWN.uri.equals(this.uri);
+    }
 
-  }
+    public boolean matches(String uri) {
+        return (this == resolve(uri));
+    }
+
+}

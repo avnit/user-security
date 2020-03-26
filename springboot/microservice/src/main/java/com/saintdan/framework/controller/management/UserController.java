@@ -44,139 +44,140 @@ import springfox.documentation.annotations.ApiIgnore;
 @Api("User")
 @RestController
 @RequestMapping(
-    ResourcePath.API + ResourcePath.V1 + ResourcePath.MANAGEMENT + ResourcePath.USERS)
+        ResourcePath.API + ResourcePath.V1 + ResourcePath.MANAGEMENT + ResourcePath.USERS)
 public class UserController {
 
-  @RequestMapping(method = RequestMethod.POST)
-  @ApiOperation(value = "Create", httpMethod = "POST", response = UserVO.class)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "Authorization", value = "token", paramType = "header", dataType = "string", required = true)
-  })
-  public ResponseEntity create(@ApiIgnore @CurrentUser User currentUser, @RequestBody UserParam param) {
-    try {
-      // Return result and message.
-      return new ResponseEntity<>(userDomain.create(param, currentUser), HttpStatus.CREATED);
-      //      return new ResponseEntity<>(userDomain.create(param, currentUser), HttpStatus.CREATED);
-    } catch (CommonsException e) {
-      // Return error information and log the exception.
-      return resultHelper
-          .infoResp(logger, e.getErrorType(), e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
-    } catch (Exception e) {
-      // Return unknown error and log the exception.
-      return resultHelper.errorResp(logger, e, ErrorType.UNKNOWN, e.getMessage(),
-          HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private final ResultHelper resultHelper;
+    private final UserDomain userDomain;
 
-  @RequestMapping(method = RequestMethod.GET)
-  @ApiOperation(value = "List", httpMethod = "GET", response = UserVO.class)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "Authorization", value = "token", paramType = "header", dataType = "string", required = true),
-      @ApiImplicitParam(name = "name", value = "user's name", paramType = "query", dataType = "string"),
-      @ApiImplicitParam(name = "usr", value = "user's username", paramType = "query", dataType = "string"),
-      @ApiImplicitParam(name = "createdAtAfter", value = "unix milli timestamp", paramType = "query", dataType = "long"),
-      @ApiImplicitParam(name = "createdAtBefore", value = "unix milli timestamp", paramType = "query", dataType = "long"),
-      @ApiImplicitParam(name = "pageNo", paramType = "query", dataType = "int"),
-      @ApiImplicitParam(name = "pageSize", paramType = "query", dataType = "int"),
-      @ApiImplicitParam(name = "sortBy", paramType = "query", dataType = "string", example = "id:desc,usr:desc")
-  })
-  public ResponseEntity all(
-      @And({
-          @Spec(path = "usr", spec = Like.class),
-          @Spec(path = "name", spec = Like.class),
-          @Spec(path = "validFlag", constVal = "VALID", spec = In.class),
-          @Spec(path = "createdAt", params = "createdAtAfter", spec = GreaterThanOrEqual.class),
-          @Spec(path = "createdAt", params = "createdAtBefore", spec = LessThanOrEqual.class)
-      }) @ApiIgnore Specification<User> userSpecification, @ApiIgnore UserParam param) {
-    try {
-      if (param.getPageNo() == null) {
-        return new ResponseEntity<>(
-            userDomain.getAll(userSpecification, QueryHelper.getSort(param.getSortBy())),
-            HttpStatus.OK);
-      }
-    } catch (Exception e) {
-      // Return unknown error and log the exception.
-      return resultHelper.errorResp(logger, e, ErrorType.UNKNOWN, e.getMessage(),
-          HttpStatus.INTERNAL_SERVER_ERROR);
+    @Autowired
+    public UserController(ResultHelper resultHelper, UserDomain userDomain) {
+        Assert.defaultNotNull(resultHelper);
+        Assert.defaultNotNull(userDomain);
+        this.resultHelper = resultHelper;
+        this.userDomain = userDomain;
     }
-    try {
-      return new ResponseEntity<>(
-          userDomain.getPage(userSpecification, QueryHelper.getPageRequest(param)), HttpStatus.OK);
-    } catch (Exception e) {
-      // Return unknown error and log the exception.
-      return resultHelper.errorResp(logger, e, ErrorType.UNKNOWN, e.getMessage(),
-          HttpStatus.INTERNAL_SERVER_ERROR);
+
+    @RequestMapping(method = RequestMethod.POST)
+    @ApiOperation(value = "Create", httpMethod = "POST", response = UserVO.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "token", paramType = "header", dataType = "string", required = true)
+    })
+    public ResponseEntity create(@ApiIgnore @CurrentUser User currentUser, @RequestBody UserParam param) {
+        try {
+            // Return result and message.
+            return new ResponseEntity<>(userDomain.create(param, currentUser), HttpStatus.CREATED);
+            //      return new ResponseEntity<>(userDomain.create(param, currentUser), HttpStatus.CREATED);
+        } catch (CommonsException e) {
+            // Return error information and log the exception.
+            return resultHelper
+                    .infoResp(logger, e.getErrorType(), e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+        } catch (Exception e) {
+            // Return unknown error and log the exception.
+            return resultHelper.errorResp(logger, e, ErrorType.UNKNOWN, e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-  }
 
-  @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-  @ApiOperation(value = "Detail", httpMethod = "GET", response = UserVO.class)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "Authorization", paramType = "header", dataType = "string", required = true),
-      @ApiImplicitParam(name = "id", paramType = "path", dataType = "long", required = true)
-  })
-  public ResponseEntity detail(@ApiIgnore @PathVariable Long id) {
-    try {
-      return new ResponseEntity<>(userDomain.getById(id, UserVO.class), HttpStatus.OK);
-    } catch (Exception e) {
-      // Return unknown error and log the exception.
-      return resultHelper.errorResp(logger, e, ErrorType.UNKNOWN, e.getMessage(),
-          HttpStatus.INTERNAL_SERVER_ERROR);
+    @RequestMapping(method = RequestMethod.GET)
+    @ApiOperation(value = "List", httpMethod = "GET", response = UserVO.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "token", paramType = "header", dataType = "string", required = true),
+            @ApiImplicitParam(name = "name", value = "user's name", paramType = "query", dataType = "string"),
+            @ApiImplicitParam(name = "usr", value = "user's username", paramType = "query", dataType = "string"),
+            @ApiImplicitParam(name = "createdAtAfter", value = "unix milli timestamp", paramType = "query", dataType = "long"),
+            @ApiImplicitParam(name = "createdAtBefore", value = "unix milli timestamp", paramType = "query", dataType = "long"),
+            @ApiImplicitParam(name = "pageNo", paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "pageSize", paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "sortBy", paramType = "query", dataType = "string", example = "id:desc,usr:desc")
+    })
+    public ResponseEntity all(
+            @And({
+                    @Spec(path = "usr", spec = Like.class),
+                    @Spec(path = "name", spec = Like.class),
+                    @Spec(path = "validFlag", constVal = "VALID", spec = In.class),
+                    @Spec(path = "createdAt", params = "createdAtAfter", spec = GreaterThanOrEqual.class),
+                    @Spec(path = "createdAt", params = "createdAtBefore", spec = LessThanOrEqual.class)
+            }) @ApiIgnore Specification<User> userSpecification, @ApiIgnore UserParam param) {
+        try {
+            if (param.getPageNo() == null) {
+                return new ResponseEntity<>(
+                        userDomain.getAll(userSpecification, QueryHelper.getSort(param.getSortBy())),
+                        HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            // Return unknown error and log the exception.
+            return resultHelper.errorResp(logger, e, ErrorType.UNKNOWN, e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        try {
+            return new ResponseEntity<>(
+                    userDomain.getPage(userSpecification, QueryHelper.getPageRequest(param)), HttpStatus.OK);
+        } catch (Exception e) {
+            // Return unknown error and log the exception.
+            return resultHelper.errorResp(logger, e, ErrorType.UNKNOWN, e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-  }
 
-  @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "Authorization", paramType = "header", dataType = "string", required = true),
-      @ApiImplicitParam(name = "id", paramType = "path", dataType = "long", required = true)
-  })
-  public ResponseEntity update(@ApiIgnore @PathVariable Long id,
-      @ApiIgnore @CurrentUser User currentUser,
-      @RequestBody UserParam param) {
-    try {
-      // Update user.
-      param.setId(id);
-      return new ResponseEntity<>(userDomain.update(param, currentUser), HttpStatus.OK);
-    } catch (CommonsException e) {
-      // Return error information and log the exception.
-      return resultHelper
-          .infoResp(logger, e.getErrorType(), e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
-    } catch (Exception e) {
-      // Return unknown error and log the exception.
-      return resultHelper.errorResp(logger, e, ErrorType.UNKNOWN, e.getMessage(),
-          HttpStatus.INTERNAL_SERVER_ERROR);
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ApiOperation(value = "Detail", httpMethod = "GET", response = UserVO.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header", dataType = "string", required = true),
+            @ApiImplicitParam(name = "id", paramType = "path", dataType = "long", required = true)
+    })
+    public ResponseEntity detail(@ApiIgnore @PathVariable Long id) {
+        try {
+            return new ResponseEntity<>(userDomain.getById(id, UserVO.class), HttpStatus.OK);
+        } catch (Exception e) {
+            // Return unknown error and log the exception.
+            return resultHelper.errorResp(logger, e, ErrorType.UNKNOWN, e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-  }
 
-  @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "Authorization", paramType = "header", dataType = "string", required = true),
-      @ApiImplicitParam(name = "id", paramType = "path", dataType = "long", required = true)
-  })
-  public ResponseEntity delete(@ApiIgnore @PathVariable Long id) {
-    try {
-      // Delete user.
-      userDomain.deepDelete(id);
-    } catch (CommonsException e) {
-      // Return error information and log the exception.
-      return resultHelper
-          .infoResp(logger, e.getErrorType(), e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
-    } catch (Exception e) {
-      // Return unknown error and log the exception.
-      return resultHelper.errorResp(logger, e, ErrorType.UNKNOWN, e.getMessage(),
-          HttpStatus.INTERNAL_SERVER_ERROR);
+    @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header", dataType = "string", required = true),
+            @ApiImplicitParam(name = "id", paramType = "path", dataType = "long", required = true)
+    })
+    public ResponseEntity update(@ApiIgnore @PathVariable Long id,
+                                 @ApiIgnore @CurrentUser User currentUser,
+                                 @RequestBody UserParam param) {
+        try {
+            // Update user.
+            param.setId(id);
+            return new ResponseEntity<>(userDomain.update(param, currentUser), HttpStatus.OK);
+        } catch (CommonsException e) {
+            // Return error information and log the exception.
+            return resultHelper
+                    .infoResp(logger, e.getErrorType(), e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+        } catch (Exception e) {
+            // Return unknown error and log the exception.
+            return resultHelper.errorResp(logger, e, ErrorType.UNKNOWN, e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-    return ResponseEntity.noContent().build();
-  }
 
-  private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-  private final ResultHelper resultHelper;
-  private final UserDomain userDomain;
-
-  @Autowired public UserController(ResultHelper resultHelper, UserDomain userDomain) {
-    Assert.defaultNotNull(resultHelper);
-    Assert.defaultNotNull(userDomain);
-    this.resultHelper = resultHelper;
-    this.userDomain = userDomain;
-  }
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", paramType = "header", dataType = "string", required = true),
+            @ApiImplicitParam(name = "id", paramType = "path", dataType = "long", required = true)
+    })
+    public ResponseEntity delete(@ApiIgnore @PathVariable Long id) {
+        try {
+            // Delete user.
+            userDomain.deepDelete(id);
+        } catch (CommonsException e) {
+            // Return error information and log the exception.
+            return resultHelper
+                    .infoResp(logger, e.getErrorType(), e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+        } catch (Exception e) {
+            // Return unknown error and log the exception.
+            return resultHelper.errorResp(logger, e, ErrorType.UNKNOWN, e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return ResponseEntity.noContent().build();
+    }
 }
