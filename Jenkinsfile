@@ -1,12 +1,8 @@
 pipeline {
-  agent {
-    node {
-      label 'test'
-    }
-
+  agent any
   }
   stages {
-    stage('git checkour') {
+    stage('git checkout') {
       steps {
         git(url: 'https://github.com/avnit/user-security', branch: 'master')
         sh '''cd springboot/microservice
