@@ -47,3 +47,26 @@ And use [specification-arg-resolver](https://github.com/tkaczmarzyk/specificatio
 
 http://localhost:8085/swagger-ui.html#/home-controller/homeUsingGET
 THe default port is 8085 for the application.
+
+<!-- ARCH-DIAGRAM:START -->
+
+## Architecture
+
+> Auto-generated architecture diagram. See [`docs/context-map.md`](docs/context-map.md) for the full context map (core application, containers/cloud, and database connections).
+
+```mermaid
+flowchart TD
+  User([User / Client])
+  App["user-security<br/><small>index.js</small><br/>Express / Node / Spring Boot"]
+  DB0[("PostgreSQL / AlloyDB")]
+  DB1[("Firestore (NoSQL)")]
+  SVC0["Firebase / Firestore"]
+  Img["Container image<br/>(Docker/Compose)"]
+  User --> App
+  App --> DB0
+  App --> DB1
+  App --> SVC0
+  App -.deploy.-> Img
+```
+
+<!-- ARCH-DIAGRAM:END -->
