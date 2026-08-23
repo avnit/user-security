@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/avnit/user-security#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.21.2"
   }
 }
