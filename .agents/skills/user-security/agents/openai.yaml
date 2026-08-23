@@ -1,0 +1,6 @@
+interface:
+  display_name: "User Security"
+  short_description: "Repo-specific patterns and workflows for user-security"
+  default_prompt: "Use the user-security repo skill to follow existing architecture, testing, and workflow conventions."
+policy:
+  allow_implicit_invocation: true
